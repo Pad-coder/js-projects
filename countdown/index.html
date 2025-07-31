@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #timer {
+      font-size: 24px;
+      color: red;
+      font-weight: bold;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    h2 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .counter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Quiz Timer</h2>
+  <div class="counter">
+    <span id="timer">30</span>
+    <button onclick="startTimer()">Start Countdown</button>
+  </div>
+
+  <script>
+    let countdown;
+    let timeLeft = 30;
+
+    function startTimer() {
+
+      if (countdown) return; // prevent multiple intervals
+
+
+      const timerDisplay = document.getElementById("timer");
+      timerDisplay.textContent = timeLeft;
+
+      countdown = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          const audio = new Audio('./alarm-sound.mp3')
+          audio.play().then(() => {
+            alert("Time's up!");
+            audio.pause();
+            timeLeft = 30;
+            timerDisplay.textContent = timeLeft; // reset display
+          }).catch(error => {
+            console.error("Error playing audio:", error);
+          });
+
+        }
+      }, 1000);
+
+
+    }
+  </script>
+
+</body>
+
+</html>
